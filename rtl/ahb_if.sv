@@ -14,11 +14,11 @@ interface ahb_if(input logic clk, input logic resetn);
 
     modport master(
         input hrdata, hready, hresp,
-        output haddr, hwrite, htrans, hsize, hwdata, hburst, hprot, hmastlock
+        output haddr, hwrite, htrans, hsize, hwdata, hburst, hprot, hmastlock, hsel
     );
 
     modport slave(
-        input resetn, haddr, hwrite, htrans, hwdata, hburst, hprot, hmastlock, hsel,
+        input resetn, haddr, hwrite, htrans, hwdata, hburst, hprot, hmastlock, hsel, hsize,
         output hrdata, hready, hresp
     );
 

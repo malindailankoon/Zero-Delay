@@ -68,9 +68,9 @@ module ahb_arbiter import ahb_pkg::*; (
     // decoding the destination based on the address---
     //-----------------------------------------------
     logic sel_control, sel_sram, sel_uart;
-    assign sel_control = (active_address[31:16] == CNN_CRTL_BASE[31:16]);
+    assign sel_control = (active_address[31:12] == CNN_CRTL_BASE[31:12]);
     assign sel_sram = (active_address[31:16] == SRAM_BASE[31:16]);
-    assign sel_uart = (active_address[31:16] == UART_BASE[31:16]);
+    assign sel_uart = (active_address[31:12] == UART_BASE[31:12]);
 
 
 
@@ -210,15 +210,15 @@ module ahb_arbiter import ahb_pkg::*; (
 
     assign cpu_data.hrdata = active_hrdata;
     assign cpu_data.hresp = active_hresp;
-    assign cpu_data.hready = (reg_grant_cpu_data)?active_hready:1'b0;
+    assign cpu_data.hready = (reg_grant_cpu_data | grant_cpu_data)?active_hready:1'b0;
     
     assign cpu_instr.hrdata = active_hrdata;
     assign cpu_instr.hresp = active_hresp;
-    assign cpu_instr.hready = (reg_grant_cpu_instr)?active_hready:1'b0;
+    assign cpu_instr.hready = (reg_grant_cpu_inst | grant_cpu_inst)?active_hready:1'b0;
 
     assign accel_dma.hrdata = active_hrdata;
-    assign accel_dma.hresp = active_hrdata;
-    assign accel_dma.hready = (reg_grant_dma)?active_hready:1'b0;
+    assign accel_dma.hresp = active_hresp;
+    assign accel_dma.hready = (reg_grant_dma | grant_dma)?active_hready:1'b0;
 
     
 
